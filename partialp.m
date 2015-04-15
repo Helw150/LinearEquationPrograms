@@ -1,19 +1,18 @@
 
-function [a,o,s,n,k] =  partialp(a,o,s,n,k);
+function [a, b] =  partialp(a, b)
 
 p=k;
-maxim=abs(a(o(k),k)/s(o(k))); % the current largest entry
+maxim=abs(a(k,k); % the current largest entry
 
-for ii = k+1:n
-    holder=abs(a(o(ii),k)/s(o(ii))); %create a placeholder variable for the next location
-    if holder > maxim
-        maxim=holder;
+for ii = k+1:N
+    tmp=abs(a(ii,k)); %create a placeholder variable for the next location
+    if tmp > maxim
+        maxim=tmp;
         p=ii;
     end
 end 
 
-
-holder=o(p);     %perform the row swap
-o(p) = o(k);  
-o(k) = holder;   
+tmp=ab(p,:);     %perform the row swap
+ab(p,:) = ab(k,:);  
+ab(k) = tmp;   
 
