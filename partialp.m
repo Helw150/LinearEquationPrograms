@@ -1,8 +1,9 @@
 
 function [a, b] =  partialp(a, b)
-
+ab = [a, b]
+[M, N] = size(ab)
 p=k;
-maxim=abs(a(k,k); % the current largest entry
+maxim=abs(a(k,k); % the first entry 
 
 for ii = k+1:N
     tmp=abs(a(ii,k)); %create a placeholder variable for the next location
