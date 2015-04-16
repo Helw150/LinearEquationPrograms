@@ -1,19 +1,20 @@
 
-function [a, b] =  partialp(a, b)
-ab = [a, b]
+function [ab] =  partialp(a,b)
+ab = [a,b]
 [M, N] = size(ab)
-p=k;
-maxim=abs(a(k,k); % the first entry 
+for j = 1:n-1
+    p=j;
+    maxim=abs(a(j,j); % the first entry 
 
-for ii = k+1:N
-    tmp=abs(a(ii,k)); %create a placeholder variable for the next location
-    if tmp > maxim
-        maxim=tmp;
-        p=ii;
-    end
-end 
+    for i = j+1:N
+        tmp=abs(a(i,j)); %create a placeholder variable for the next location
+        if tmp > maxim
+           maxim=tmp;
+           p=i;
+        end
+    end 
 
-tmp=ab(p,:);     %perform the row swap
-ab(p,:) = ab(k,:);  
-ab(k) = tmp;   
-
+    tmp=ab(p,:);     %perform the row swap
+    ab(p,:) = ab(j,:);  
+    ab(j,:) = tmp;   
+end

@@ -1,7 +1,6 @@
-function x = Gauss(a, b)
+function x = Gauss(a,b)
 
-[a, b] = partialp(a, b)
-ab = [a, b];
+[a,b] = partialp(a,b)
 [M, N] = size(ab);
 % forward elimination
 for j = 1:M-1       % loops across the columns
