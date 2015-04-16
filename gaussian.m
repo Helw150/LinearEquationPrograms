@@ -1,6 +1,6 @@
 function x = Gauss(a,b)
 
-[a,b] = partialp(a,b)
+ab = partialp(a,b)
 [M, N] = size(ab);
 % forward elimination
 for j = 1:M-1       % loops across the columns
@@ -11,6 +11,6 @@ end
 % backwards substitution
 x = zeros(M,1);
 x(M) = ab(M,N)/ab(M,M);
-for i = R-1:-1:1
-    x(i)=(ab(i,N)-ab(i,i+1:R))/ab(i,i);
+for i = M-1:-1:1
+    x(i)=(ab(i,N)-ab(i,i+1:M)*x(i+1:M))/ab(i,i);
 end
