@@ -1,4 +1,4 @@
-function [L, U] = decomposition(A)
+function [L, U] = Decomposition(A)
 
 
 M = length(A);
@@ -14,6 +14,6 @@ for i = 2:M
         L(i,j)=A(i,j)-L(i,1:j-1)*U(1:j-1,j);  % Creating Lower triangular matrix
     end 
     for j = i+1:M 
-        U(i,j)=(A(i,j)-L(i,1:i-1)*U(1:i-1,j))/L(i,i); % creating unit upper Matrix
+        U(i,j)=(A(i,j)-L(i,1:i-1)*U(1:i-1,j))/L(­i,i); % creating unit upper Matrix
     end
 end
