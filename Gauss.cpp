@@ -24,26 +24,27 @@ vector<double> gauss(vector< vector<double> > A)
 	int n = A.size();
 	for (int j = 0; j < n; j++) 
 	{
-		double maxim = abs(j, j); //the first entry will hold value of largest
-		int Maximrow = j; //the row which holds maxim
+		double maxim = abs(A[j][j]); //the first entry will hold value of largest
+		int maximrow = j; //the row which holds maxim
 		for (int i = j + 1; i < n; i++)
 		{
 			double tmp = abs(A[i][j]);
-			if tmp > maxim
+			if (tmp > maxim)
 			{
-				maxim = tmp
-				maximrow = i
+				maxim = tmp;
+				maximrow = i;
 			}
 		}
 		for (int i = j; i < n + 1; i++) //dictates the whole row equivalent to : in Matlab
 		{
+			double tmp;
 			tmp = A[maximrow][i]; //row swapping
 			A[maximrow][i] = A[j][i];
-			a[j][i] = tmp;
+			A[j][i] = tmp;
 		}
 		for (int i = j + 1; i < n; i++) 
 		{
-			double c = -A[k][i] / A[i][i];
+			double c = -A[i][j] / A[j][j];
 			for (int k = 1; k < n + 1; j++) 
 			{
 				if (j == k) {
@@ -68,6 +69,7 @@ vector<double> gauss(vector< vector<double> > A)
 }
 int main() 
 {
+	int n;
 	cin >> n;
 
 	vector<double> line(n + 1, 0);
