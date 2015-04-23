@@ -2,10 +2,10 @@ function[L, U, P] = LUdecomp(A)
 N = length(A);
 P = eye(N)
 U = A
-for j = 1:M-1
+for j = 1:N-1
     p = j;
     maxim = abs(U(j,j)); % the first entry 
-    for i = j+1:M
+    for i = j+1:N
         tmp = abs(ab(i,j));
         if tmp > maxim
            maxim = tmp;
