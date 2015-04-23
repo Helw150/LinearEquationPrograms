@@ -1,19 +1,28 @@
-function [L, U] = decomposition(A)
+function[L, U, P] = LUdecomp(A)
+N = length(A);
+P = eye(N)
+U = A
+for j = 1:M-1
+    p = j;
+    maxim = abs(U(j,j)); % the first entry 
+    for i = j+1:M
+        tmp = abs(ab(i,j));
+        if tmp > maxim
+           maxim = tmp;
+           p = i;
+        end
+    end
 
-
-M = length(A);
-for i = 1:M
-    L(i,1) = A(i,1); % Creates function for lower
-    U(i,i) = 1; % Creates function for upper
-end
-for j = 2:M 
-    U(1,j)= A(1,j)/L(1,1); % make the diagonal unit
-end
-for i = 2:M 
-    for j = 2:i 
-        L(i,j)=A(i,j)-L(i,1:j-1)*U(1:j-1,j);  % Creating Lower triangular matrix
-    end 
-    for j = i+1:M 
-        U(i,j)=(A(i,j)-L(i,1:i-1)*U(1:i-1,j))/L(i,i); % creating unit upper Matrix
+    tmp = U(p,:);     %perform the row swap on U
+    U(p,:) = U(j,:);  
+    U(j,:) = tmp;
+    tmp = P(p,:);     %perform the row swap on P
+    P(p,:) = P(j,:);  
+    P(j,:) = tmp;
+    
+     for k = j+1:N
+        L(k,j) = U(k,j)/U(j,j);
+        U(k,:) = U(k,:)-L(k,j)*U(j,:);
     end
 end
+endfunction
