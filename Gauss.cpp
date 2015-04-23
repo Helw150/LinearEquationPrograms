@@ -18,7 +18,6 @@ void matrixdisplay(vector< vector<double> > A) //prettily displays the matrix
 	cout << endl;
 
 }
-
 vector<double> gauss(vector< vector<double> > A)
 {
 	int n = A.size();
