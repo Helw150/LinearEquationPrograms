@@ -1,7 +1,8 @@
 function[L, U, P] = LUdecomp(A)
 N = length(A);
-P = eye(N)
-U = A
+P = eye(N);
+L = P;
+U = A;
 for j = 1:N-1
     p = j;
     maxim = abs(U(j,j)); % the first entry 
