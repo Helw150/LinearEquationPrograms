@@ -1,29 +1,43 @@
 function[L, U, P] = LUdecomp(A)
 N = length(A);
 P = eye(N);
-L = P;
-U = A;
-for j = 1:N-1
+U = zeros(N);
+L = zeros(N);
+for j = 1:N
     p = j;
-    maxim = abs(U(j,j)); % the first entry 
+    maxim = abs(A(j,j)); % the first entry 
     for i = j+1:N
-        tmp = abs(ab(i,j));
+        tmp = abs(A(i,j));
         if tmp > maxim
            maxim = tmp;
            p = i;
         end
     end
 
-    tmp = U(p,:);     %perform the row swap on U
-    U(p,:) = U(j,:);  
-    U(j,:) = tmp;
+    tmp = A(p,:);     %perform the row swap on U
+    A(p,:) = A(j,:);  
+    A(j,:) = tmp;
     tmp = P(p,:);     %perform the row swap on P
     P(p,:) = P(j,:);  
     P(j,:) = tmp;
-    
-     for k = j+1:N
-        L(k,j) = U(k,j)/U(j,j);
-        U(k,:) = U(k,:)-L(k,j)*U(j,:);
+    for i = 1:N 
+        L(i,1) = A(i,1); 
+	U(i,i) = 1;
+    end
+    for i = 2:N 
+	U(1,i)= A(1,i)/L(1,1);
+    end
+    for k = 2:j 
+        L(j,k)=A(j,k)-L(j,1:k-1)*U(1:k-1,k); 
+    end 
+    for k = j+1:N
+        U(j,k)=(A(j,k)-L(j,1:j-1)*U(1:j-1,k))/L(j,j); 
     end
 end
+disp("Permutation");
+disp(P);
+disp("Lower");
+disp(L);
+disp("Upper");
+disp(U);
 endfunction
