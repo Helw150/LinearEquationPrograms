@@ -20,11 +20,12 @@ for j = 1:N
     tmp = P(p,:);     %perform the row swap on P
     P(p,:) = P(j,:);  
     P(j,:) = tmp;
-    for i = 1:N 
-        L(i,1) = A(i,1); 
-	U(i,i) = 1;
+   
+    for i = 1:j 
+           L(i,1) = A(i,1); 
+	   U(i,i) = 1;
     end
-    for i = 2:N 
+    for i = 2:j
 	U(1,i)= A(1,i)/L(1,1);
     end
     for k = 2:j 
@@ -34,6 +35,7 @@ for j = 1:N
         U(j,k)=(A(j,k)-L(j,1:j-1)*U(1:j-1,k))/L(j,j); 
     end
 end
+return;
 disp("Permutation");
 disp(P);
 disp("Lower");

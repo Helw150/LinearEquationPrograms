@@ -5,7 +5,7 @@ x = zeros(N,1);
 y = zeros(N,1);
 
 for i = 1:N
-    tmp = b(i);
+    tmp = B(i);
     for j = 1:i-1
         tmp = tmp - L(i,j)*y(j)
     end
@@ -18,3 +18,4 @@ for i = N:-1:1
     end
     x(i) = tmp / U(i,i);
 end
+endfunction
