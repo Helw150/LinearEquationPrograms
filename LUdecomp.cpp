@@ -3,15 +3,23 @@
 #include <vector>
 
 using namespace std;
-
-void matrixdisplay(vector< vector<double> > A) //prettily displays the matrix 
+void vectordisplay(vector<double> rnd)
 {
-	int n = A.size();
+	int n = rnd.size();
+	for (int i = 0; i < n; i++)
+	{
+		cout << rnd[i] << "\n";
+
+	}
+}
+void matrixdisplay(vector< vector<double> > rnd) //prettily displays the matrix 
+{
+	int n = rnd.size();
 	for (int i = 0; i< n; i++)
 	{
 		for (int j = 0; j < n + 1; j++)
 		{
-			cout << A[i][j] << "\t";
+			cout << rnd[i][j] << "\t";
 		}
 		cout << "\n";
 	}
@@ -21,18 +29,18 @@ struct LUP
 {
 	vector < vector<double> > Lower;
 	vector < vector<double> > Upper;
-	vector < vector<double> > Permute;
+	vector <double> Permute;
 };
 
 
 LUP LUdecomp(vector< vector<double> > A)
 {
 	int n = A.size();
-	vector < vector<double> > P;
-	P = vector<vector<double> >(n, vector<double>(n, 0));
+	vector <double> P;
+	P = vector<double>(n);
 	for (int i = 0; i < n; i++)
 	{
-		P[i][i] = 1;
+		P[i] = n;
 	}
 	vector< vector<double> > U;
 	U = vector<vector<double> >(n, vector<double>(n, 0));
@@ -44,43 +52,37 @@ LUP LUdecomp(vector< vector<double> > A)
 		int Maximrow = j; //the row which holds maxim
 		for (int i = j + 1; i < n; i++)
 		{
-			if (abs(A[i][j]) > maxim)
+			if (abs(A[P[i]][j]) > maxim)
 			{
-				maxim = abs(A[i][j]);
+				maxim = abs(A[P[i]][j]);
 				Maximrow = i;
 			}
 		}
-		for (int i = j; i < n + 1; i++) //dictates the whole row equivalent to : in Matlab
+		double tmp;
+		tmp = P[Maximrow]; //row swapping permutation
+		P[Maximrow] = P[j];
+		P[j] = tmp;
+		for (int i = 1; 1 < j; i++)
 		{
-			double tmp;
-			tmp = A[Maximrow][i]; //row swapping the actual
-			A[Maximrow][i] = A[j][i];
-			A[j][i] = tmp;
-			tmp = P[Maximrow][i]; //row swapping permutation
-			P[Maximrow][i] = P[j][i];
-			P[j][i] = tmp;
-		}
-		for (int i = 1, 1 < n, i++)
-		{
-			L[i][1] = A[i][1];
+			L[i][1] = A[P[i]][1];
 			U[i][i] = 1;
 		}
-		for (int i + 2, i < n, i++)
+		for (int i = 2; i < n; i++)
 		{
-			U[1][i] = A[1]][i] / L[1][1];
+			U[1][i] = A[P[1]][i] / L[1][1];
 		}
-		for (int k = 2, k < j, k++)
+		for (int k = 2; k < j; k++)
 		{
-			for (int i = 1, i < k-1, i++)
+			for (int i = 1; i < k - 1; i++)
 			{
-				L[j][k] = (A[j][k] - L[j][i] * U[i][k])
+				L[j][k] = (A[P[j]][k] - L[j][i] * U[i][k]);
 			}
 		}
-		for (int k = j+1, k < n, k++)
+		for (int k = j + 1; k < n; k++)
 		{
-			for (int i = 1, i < j - 1, i++)
+			for (int i = 1; i < j - 1; i++)
 			{
-				U[j][k] = (A[j][k] - L[j][i] * U[i][k]) / L[j][j]
+				U[j][k] = (A[P[j]][k] - L[j][i] * U[i][k]) / L[j][j];
 			}
 		}
 	}
@@ -111,7 +113,7 @@ int main()
 
 	matrixdisplay(defined.Lower);
 	matrixdisplay(defined.Upper);
-	matrixdisplay(defined.Permute);
+	vectordisplay(defined.Permute);
 
 }
 
