@@ -40,7 +40,7 @@ LUP LUdecomp(vector< vector<double> > A)
 	P = vector<double>(n);
 	for (int i = 0; i < n; i++)
 	{
-		P[i] = n;
+		P[i] = i;
 	}
 	vector< vector<double> > U;
 	U = vector<vector<double> >(n, vector<double>(n, 0));
