@@ -1,21 +1,23 @@
-function x = LUsolve(A,B)
-[L, U, P] = LUdecomp(A);
-N = length(A)
-x = zeros(N,1);
-y = zeros(N,1);
+function x = LUsolve(A,b)
+[L, U, P] = luop(A);
+n = length(A)
+x = zeros(n,1);
 
-for i = 1:N
-    tmp = B(i);
-    for j = 1:i-1
-        tmp = tmp - L(i,j)*y(j)
+for i = 2 : n
+    sum=b(P(i));
+    for j=1: i-1
+        sum=sum - L(i, j)*b(P(j));
     end
-    y(i) = tmp
+    b(P(i))=sum;
 end
-for i = N:-1:1
-    tmp = y(i)
-    for j = i+1:N
-        tmp = tmp - U(i,j)*x(j);
+x(n)=b(P(n))/U(n,n);
+
+for i = n-1 :-1 :1
+    sum=0;
+    for j = i+1:n
+        sum=sum+U(i,j)*x(j);
     end
-    x(i) = tmp / U(i,i);
+    x(i)=(b(P(i))-sum)/U(i,i);
 end
 endfunction
+

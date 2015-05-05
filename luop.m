@@ -19,6 +19,11 @@ for (i = 1:n-1)
     tmp = U(m,:);
     U(m,:) = U(i,:);
     U(i,:) = tmp;
+    if i >= 2
+       tmp = L(m,:);
+       L(m,:) = L(i,:);
+       L(i,:) = tmp;
+    end
     L(i+1:n, i) = U(i+1:n,i)/U(i,i);
     U(i+1:n, i+1:n) = U(i+1:n,i+1:n) - L(i+1:n,i)*U(i,i+1:n);
     U(i+1:n, i) = 0;
