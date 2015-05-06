@@ -5,9 +5,9 @@ P = [1:n];
 L = eye(n);
 for (i = 1:n-1)
     m = i;
-    maxim = abs(A(P(i),i));
+    maxim = abs(U(i,i));
     for j = i+1:n
-	tmp = abs(A(P(j),i));
+	tmp = abs(U(j,i));
 	if tmp > maxim
 	   maxim = tmp;
 	   m = j;
