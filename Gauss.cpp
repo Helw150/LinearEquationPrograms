@@ -34,7 +34,7 @@ vector<double> gauss(vector< vector<double> > A)
 				maximrow = i;
 			}
 		}
-		for (int i = j; i < n + 1; i++) //dictates the whole row equivalent to : in Matlab
+		for (int i = 1; i < n + 1; i++) //dictates the whole row equivalent to : in Matlab
 		{
 			double tmp;
 			tmp = A[maximrow][i]; //row swapping
@@ -69,6 +69,7 @@ vector<double> gauss(vector< vector<double> > A)
 int main() 
 {
 	int n;
+	cout << "Enter Size";
 	cin >> n;
 
 	vector<double> line(n + 1, 0);

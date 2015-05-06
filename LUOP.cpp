@@ -11,13 +11,14 @@ void vectordisplay(vector<double> rnd)
 		cout << rnd[i] << "\n";
 
 	}
+	cout << endl;
 }
 void matrixdisplay(vector< vector<double> > rnd) //prettily displays the matrix 
 {
 	int n = rnd.size();
 	for (int i = 0; i< n; i++)
 	{
-		for (int j = 0; j < n + 1; j++)
+		for (int j = 0; j < n; j++)
 		{
 			cout << rnd[i][j] << "\t";
 		}
@@ -40,7 +41,7 @@ LUP luop(vector< vector<double> > A)
 	{
 		P[i] = i;
 	}
-	vector< vector<double> > U;
+	vector< vector<double> > U(n, vector<double>(n, 0));
 	U = A;
 	vector < vector<double> > L;
 	L = vector<vector<double> >(n, vector<double>(n, 0));
@@ -48,40 +49,44 @@ LUP luop(vector< vector<double> > A)
 	{
 		L[i][i] = 1;
 	}
-	for (int j = 0; j < n; j++)
+	for (int i = 0; i < n - 1; i++)
 	{
-		double maxim = abs(A[j][j]); //the first entry will hold value of largest
-		int Maximrow = j; //the row which holds maxim
-		for (int i = j + 1; i < n; i++)
+		double maxim = abs(U[i][i]); //the first entry will hold value of largest
+		int Maximrow = i; //the row which holds maxim
+		for (int j = i + 1; j < n; j++)
 		{
-			if (abs(A[P[i]][j]) > maxim)
+			if (abs(U[j][i]) > maxim)
 			{
-				maxim = abs(A[P[i]][j]);
-				Maximrow = i;
+				maxim = abs(U[j][i]);
+				Maximrow = j;
 			}
 		}
 		double tmp;
 		tmp = P[Maximrow]; //row swapping permutation
-		P[Maximrow] = P[j];
-		P[j] = tmp;
-		for (int i = j; i < n + 1; i++) //dictates the whole row equivalent to : in Matlab
+		P[Maximrow] = P[i];
+		P[i] = tmp;
+		for (int j = i; j < n; j++) //dictates the whole row equivalent to : in Matlab
 		{
-			double tmp;
-			tmp = U[Maximrow][i];
-			U[Maximrow][i] = U[j][i];
-			U[j][i] = tmp;
-			if (j >= 2)
-			{
-				tmp = L[Maximrow][i];
-				L[Maximrow][i] = L[j][i];
-				L[j][i] = tmp;
-			}
+			tmp = U[Maximrow][j];
+			U[Maximrow][j] = U[i][j];
+			U[i][j] = tmp;
 		}
-		for (int i = j + 1; i <= n; i++)
+		for (int j = 0; j < i; j++)
 		{
-			L[i][j] = U[i][j] / U[j][j];
-			U[i][i] = U[i][i] - L[i][j] * U[j][i];
-			U[i][j] = 0;
+			tmp = L[Maximrow][j];
+			L[Maximrow][j] = L[i][j];
+			L[i][j] = tmp;
+		}
+		for (int j = i + 1; j < n; j++)
+		{
+				L[j][i] = U[j][i] / U[i][i];
+
+				for (int k = i + 1; k < n; k++)
+				{
+					U[j][k] = U[j][k] - L[j][i] * U[i][k];
+					U[j][i] = 0;
+				}
+				matrixdisplay(U);
 		}
 	}
 		LUP defined;
@@ -92,35 +97,38 @@ LUP luop(vector< vector<double> > A)
 }
 vector<double> substitution(LUP defined, vector<double> B)
 {
-	int n = defined.Upper.size();
+	double n = defined.Upper.size();
 	vector<double> x(n);
-	for (int i = 2; i <= n; i++)
+	
+	for (double i = 1; i < n; i++)
 	{
-		int sum;
+		double sum;
 		sum = B[defined.Permute[i]];
-		for (int j = 1; j < i; j++)
+		for (double j = 0; j < i; j++)
 		{
 			sum -= defined.Lower[i][j] * B[defined.Permute[j]];
 		}
 		B[defined.Permute[i]] = sum;
 	}
-	x[n] = B[defined.Permute[n]] / defined.Upper[n][n];
-	for (int i = n - 1; i >= 1; i--)
+	x[n-1] = B[defined.Permute[n-1]] / defined.Upper[n-1][n-1];
+	for (double i = n-2; i >= 0; i--)
 	{
-		int sum = 0;
-		for (int j = i + 1; i <= n; i++)
+		double sum = 0;
+		for (double j = i + 1; j < n; j++)
 		{
 			sum += defined.Upper[i][j] * x[j];
 		}
 		x[i] = (B[defined.Permute[i]] - sum) / defined.Upper[i][i];
 	}
 	return x;
+
+
 }
 int main()
 {
 	int n;
 	cin >> n;
-	vector<double> line(n + 1, 0);
+	vector<double> line(n, 0);
 	vector< vector<double> > A(n, line);
 	for (int i = 0; i < n; i++)
 	{
@@ -129,7 +137,7 @@ int main()
 			cin >> A[i][j];
 		}
 	}
-	vector<double> B;
+	vector<double> B(n);
 	for (int i = 0; i < n; i++)
 	{
 		cin >> B[i];
@@ -140,8 +148,16 @@ int main()
 	LUP defined;
 	defined = luop(A);
 	x = substitution(defined, B);
+	cout << "\n";
 	matrixdisplay(defined.Upper);
+	cout << "\n";
 	matrixdisplay(defined.Lower);
+	cout << "\n";
 	vectordisplay(defined.Permute);
+	cout << "\n";
 	vectordisplay(x);
+	int Y;
+	cin >> Y;
+	return 0;
+
 }
